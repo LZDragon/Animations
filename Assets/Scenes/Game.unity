@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 00d83efbd91409d47afc0136804298c7, type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -237,7 +237,7 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: PlayerMap
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 886223454}
 --- !u!54 &117522352
@@ -265,7 +265,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!136 &117522353
 CapsuleCollider:
@@ -290,6 +290,19 @@ CapsuleCollider:
   m_Height: 2.22
   m_Direction: 1
   m_Center: {x: 0, y: 1.07, z: 0}
+--- !u!114 &117522354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117522348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d159903787cc52c42a23569f5db99cde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRigidbody: {fileID: 117522352}
 --- !u!1001 &735491476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -365,6 +378,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6a08bd847bbbff242a885f7f9f05afa3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 117522353}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6a08bd847bbbff242a885f7f9f05afa3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 117522354}
   m_SourcePrefab: {fileID: 100100000, guid: 6a08bd847bbbff242a885f7f9f05afa3, type: 3}
 --- !u!1 &886223452
 GameObject:
