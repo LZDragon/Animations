@@ -11,13 +11,18 @@ public class Player : MonoBehaviour
 {
     private PlayerActions playerActions;
     [SerializeField] private Rigidbody playerRigidbody;
+    [SerializeField] private Animator playerAnimator;
 
-    private Vector2 moveInput;
-    private float speed;
+    private Vector3 moveDirection;
+    private bool isSprinting;
+    private bool isWalking;
+    private float speed =0f;
+    private static readonly int PlayerSpeed = Animator.StringToHash("playerSpeed");
 
     private void Awake()
     {
         playerActions = new PlayerActions();
+
     }
 
     private void OnEnable()
@@ -30,15 +35,53 @@ public class Player : MonoBehaviour
         playerActions.PlayerMap.Disable();
     }
 
-    private void OnMove()
-    {
-        moveInput = playerActions.PlayerMap.Move.ReadValue<Vector2>();
-        speed = 5f;
-    }
+
 
     private void FixedUpdate()
     {
-        Vector3 moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
-        transform.position += moveDirection * (speed * Time.deltaTime);
+        if (isWalking)
+        {
+            if (isSprinting)
+            {
+                speed = 10f;
+                playerAnimator.SetFloat(PlayerSpeed, speed);
+            }
+            else
+            {
+                speed = 5f;
+                playerAnimator.SetFloat(PlayerSpeed, speed);
+            }
+            transform.Translate(moveDirection * (speed * Time.deltaTime));
+        }
+        else
+        {
+            speed = 0;
+            playerAnimator.SetFloat(PlayerSpeed, speed);
+        }
+
+    }
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        moveDirection = context.ReadValue<Vector2>();
+        moveDirection = new Vector3(moveDirection.x, 0, moveDirection.y);
+        isWalking = context.performed;
+
+    }
+
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        
+    }
+
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        isSprinting = context.performed;
+        Debug.Log("Shift key pressed");
     }
 }
