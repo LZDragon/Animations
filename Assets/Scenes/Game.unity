@@ -259,6 +259,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: f8603589-3e98-4b1c-b87e-9bd0c3cb41d3
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 117522354}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnPushup
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 571ae313-f985-4d6e-9c96-fd263d30d033
+    m_ActionName: PlayerMap/Pushup[/Keyboard/p]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: PlayerMap

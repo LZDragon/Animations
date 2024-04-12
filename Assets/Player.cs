@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     private bool isWalking;
     private float speed =0f;
     private static readonly int PlayerSpeed = Animator.StringToHash("playerSpeed");
+    private bool preformPushup;
+    private static readonly int Pushup = Animator.StringToHash("pushup");
 
     private void Awake()
     {
@@ -39,25 +41,8 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isWalking)
-        {
-            if (isSprinting)
-            {
-                speed = 10f;
-                playerAnimator.SetFloat(PlayerSpeed, speed);
-            }
-            else
-            {
-                speed = 5f;
-                playerAnimator.SetFloat(PlayerSpeed, speed);
-            }
-            transform.Translate(moveDirection * (speed * Time.deltaTime));
-        }
-        else
-        {
-            speed = 0;
-            playerAnimator.SetFloat(PlayerSpeed, speed);
-        }
+        Movement();
+        playerAnimator.SetBool(Pushup,preformPushup);
 
     }
 
@@ -82,6 +67,33 @@ public class Player : MonoBehaviour
     public void OnSprint(InputAction.CallbackContext context)
     {
         isSprinting = context.performed;
-        Debug.Log("Shift key pressed");
+    }
+
+    public void OnPushup(InputAction.CallbackContext context)
+    {
+        preformPushup = context.performed;
+    }
+
+    private void Movement()
+    {
+        if (isWalking)
+        {
+            if (isSprinting)
+            {
+                speed = 10f;
+                playerAnimator.SetFloat(PlayerSpeed, speed);
+            }
+            else
+            {
+                speed = 5f;
+                playerAnimator.SetFloat(PlayerSpeed, speed);
+            }
+            transform.Translate(moveDirection * (speed * Time.deltaTime));
+        }
+        else
+        {
+            speed = 0;
+            playerAnimator.SetFloat(PlayerSpeed, speed);
+        }
     }
 }
