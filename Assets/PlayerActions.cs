@@ -71,6 +71,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""c0799393-9779-4bad-b2d3-5265101c1c35"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -324,6 +333,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Gamepad"",
                     ""action"": ""Pushup"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4a22e537-cb1e-416c-8956-66c6cbbe4413"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -916,6 +936,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_PlayerMap_Fire = m_PlayerMap.FindAction("Fire", throwIfNotFound: true);
         m_PlayerMap_Sprint = m_PlayerMap.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerMap_Pushup = m_PlayerMap.FindAction("Pushup", throwIfNotFound: true);
+        m_PlayerMap_Jump = m_PlayerMap.FindAction("Jump", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -994,6 +1015,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerMap_Fire;
     private readonly InputAction m_PlayerMap_Sprint;
     private readonly InputAction m_PlayerMap_Pushup;
+    private readonly InputAction m_PlayerMap_Jump;
     public struct PlayerMapActions
     {
         private @PlayerActions m_Wrapper;
@@ -1003,6 +1025,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_PlayerMap_Fire;
         public InputAction @Sprint => m_Wrapper.m_PlayerMap_Sprint;
         public InputAction @Pushup => m_Wrapper.m_PlayerMap_Pushup;
+        public InputAction @Jump => m_Wrapper.m_PlayerMap_Jump;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1027,6 +1050,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Pushup.started += instance.OnPushup;
             @Pushup.performed += instance.OnPushup;
             @Pushup.canceled += instance.OnPushup;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
         }
 
         private void UnregisterCallbacks(IPlayerMapActions instance)
@@ -1046,6 +1072,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Pushup.started -= instance.OnPushup;
             @Pushup.performed -= instance.OnPushup;
             @Pushup.canceled -= instance.OnPushup;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
         }
 
         public void RemoveCallbacks(IPlayerMapActions instance)
@@ -1233,6 +1262,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnPushup(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

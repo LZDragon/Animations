@@ -5,13 +5,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof (CharacterController))]
 [RequireComponent(typeof(PlayerInput))]
 public class Player : MonoBehaviour
 {
     private PlayerActions playerActions;
     [SerializeField] private Rigidbody playerRigidbody;
     [SerializeField] private Animator playerAnimator;
+    [SerializeField] private CharacterController characterController;
 
     private Vector3 moveDirection;
     private bool isSprinting;
@@ -20,6 +21,8 @@ public class Player : MonoBehaviour
     private static readonly int PlayerSpeed = Animator.StringToHash("playerSpeed");
     private bool preformPushup;
     private static readonly int Pushup = Animator.StringToHash("pushup");
+    private bool preformJump;
+    private float gravity = -0.98f;
 
     private void Awake()
     {
@@ -43,6 +46,7 @@ public class Player : MonoBehaviour
     {
         Movement();
         playerAnimator.SetBool(Pushup,preformPushup);
+        playerAnimator.SetBool("jump", preformJump);
 
     }
 
@@ -74,6 +78,18 @@ public class Player : MonoBehaviour
         preformPushup = context.performed;
     }
 
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        preformJump = context.performed;
+    }
+
+    public void Jump() //Called in Jump Animation (import settings -> event)
+    {
+        
+        characterController.Move(new Vector3(0,3));
+        gravity = -0.1f;
+    }
+
     private void Movement()
     {
         if (isWalking)
@@ -88,12 +104,20 @@ public class Player : MonoBehaviour
                 speed = 5f;
                 playerAnimator.SetFloat(PlayerSpeed, speed);
             }
-            transform.Translate(moveDirection * (speed * Time.deltaTime));
+            //transform.Translate(moveDirection * (speed * Time.deltaTime));
+            characterController.Move(moveDirection * (speed * Time.deltaTime));
         }
         else
         {
             speed = 0;
             playerAnimator.SetFloat(PlayerSpeed, speed);
         }
+
+        if (characterController.isGrounded)
+        {
+            gravity = -0.98f;
+        }
+        characterController.Move(new Vector3(0,gravity));
+        playerAnimator.SetBool("isGrounded", characterController.isGrounded);
     }
 }
